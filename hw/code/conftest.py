@@ -14,6 +14,7 @@ from pages.reference_page import RefPage
 from pages.forum_page import ForumPage
 from pages.personal_area_page import PersonalAreaPage
 from pages.partner_page import PartnerPage
+from pages.start_page import StartPage
 from pages.partner_help_page import PartnerHelpPage
 from pages.news_page import NewsPage
 from pages.cases_page import CasesPage
@@ -56,6 +57,10 @@ def audience_page(web_browser, require_login):
 @pytest.fixture
 def partner_page(web_browser):
     return PartnerPage(web_browser)
+
+@pytest.fixture
+def start_page(web_browser):
+    return StartPage(web_browser)
 
 
 @pytest.fixture
