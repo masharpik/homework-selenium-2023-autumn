@@ -18,6 +18,9 @@ from pages.start_page import StartPage
 from pages.partner_help_page import PartnerHelpPage
 from pages.news_page import NewsPage
 from pages.cases_page import CasesPage
+from pages.insights_page import InsightsPage
+from pages.events_page import EventsPage
+from pages.commerce_center_page import CommerceCenterPage
 from pages.article_reference_page import ArticleRefPage
 from _pytest.fixtures import FixtureRequest
 
@@ -55,6 +58,12 @@ def audience_page(web_browser, require_login):
 
 
 @pytest.fixture
+def commerce_center_page(web_browser, require_login):
+    return CommerceCenterPage(web_browser)
+
+
+
+@pytest.fixture
 def partner_page(web_browser):
     return PartnerPage(web_browser)
 
@@ -71,6 +80,17 @@ def partner_help_page(web_browser):
 @pytest.fixture
 def news_page(web_browser):
     return NewsPage(web_browser)
+
+
+@pytest.fixture
+def insights_page(web_browser):
+    return InsightsPage(web_browser)
+
+
+@pytest.fixture
+def events_page(web_browser):
+    return EventsPage(web_browser)
+
 
 
 @pytest.fixture
