@@ -4,6 +4,7 @@
 from pages.base import WebPage
 from pages.elements import WebElement
 from pages.elements import ManyWebElements
+from selenium.webdriver import ActionChains
 
 class PersonalAreaPage(WebPage):
     def __init__(self, web_driver, url=''):
@@ -64,3 +65,38 @@ class PersonalAreaPage(WebPage):
     button_photobank = WebElement(xpath='//div[@data-id="photobank"]')
     photos_photobabk = ManyWebElements(xpath='//div[@class="ImageItems_imageItem__jdlt3 ImageItems_active__wH2sS"]')
     button_add = WebElement(xpath='//span[@class="vkuiButton__content" and contains(text(),"Добавить")]')
+
+    def enter_to_creating_campaign(self):
+        self.button_create_campaign.click()
+        self.wait_page_loaded()
+        self.button_site.click()
+        self.wait_page_loaded()
+
+    def go_to_step_2(self):
+        self.enter_to_creating_campaign()
+        self.input_advertised_site.send_keys("openai.com")
+        self.input_budget.send_keys("333")
+        self.button_continue.click()
+        self.wait_page_loaded()
+
+    def create_campaign_full(self):
+        self.go_to_step_2()
+        self.buttons_regions[0].click()
+        self.wait_page_loaded()
+        self.button_continue.click()
+        self.wait_page_loaded()
+        self.inputs_ads[0].send_keys("Заголовок")
+        self.textarea_ads[0].send_keys("Описание")
+        self.choose_from_media_lib.click()
+        self.button_photobank.click()
+        self.wait_page_loaded()
+        self.photos_photobabk[0].click()
+        self.button_add.click()
+        self.wait_page_loaded()
+        self.button_publish.click()
+        self.wait_page_loaded()
+    
+    def edit_draft(self, index_draft):
+        ActionChains(self._web_driver).move_to_element(self.campaigns_draft[index_draft]).perform()
+        self.campaigns_draft_edit[index_draft].click()
+        self.wait_page_loaded()

@@ -1,6 +1,6 @@
 # homework-selenium
 
-#### example launch
+#### example launch concrete test-file
 ```bash
 python3 -m pytest -v --driver Chrome -s tests/test_reference.py
 ```

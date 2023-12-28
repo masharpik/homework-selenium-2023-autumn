@@ -61,7 +61,8 @@ class WebPage(object):
             self._web_driver.execute_script('window.scrollTo(0, {0});'.format(offset))
         else:
             self._web_driver.execute_script('window.scrollTo(0, document.body.scrollHeight);')
-
+        time.sleep(1)
+        
     def scroll_up(self, offset=0):
         """ Scroll the page up. """
 
@@ -70,11 +71,20 @@ class WebPage(object):
         else:
             self._web_driver.execute_script('window.scrollTo(0, -document.body.scrollHeight);')
 
+    def scroll_to_element(self, element):
+        self._web_driver.execute_script("arguments[0].scrollIntoView();", element)
+        time.sleep(0.5)
+        self._web_driver.execute_script('window.scrollBy(0, -70);')
+        time.sleep(0.5)
+    
     def switch_to_iframe(self, iframe):
         """ Switch to iframe by it's name. """
 
         self._web_driver.switch_to.frame(iframe)
 
+    def switch_to_window(self, index_window):
+        self._web_driver.switch_to.window(self._web_driver.window_handles[index_window])
+    
     def switch_out_iframe(self):
         """ Cancel iframe focus. """
         self._web_driver.switch_to.default_content()

@@ -1,1 +1,1 @@
-python3 -m pytest -v --driver Chrome hw/code/
+cd hw/code/ && python3 -m pytest -v --driver Chrome .

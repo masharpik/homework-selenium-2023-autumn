@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 # -*- encoding=utf8 -*-
 
+import re
 from pages.base import WebPage
 from pages.elements import WebElement
 from pages.elements import ManyWebElements
@@ -48,3 +49,17 @@ class ForumPage(WebPage):
     button_ok_understood = WebElement(xpath='//span[contains(text(), "Ок, понятно")]')
     button_close_modal_window = WebElement(xpath='//div[@aria-label="Закрыть"]')
     
+    def id_by_idea(self, idea_index):
+        info = self.text_date_and_id_of_ideas[idea_index].text
+        match = re.search(r'id (\d+)', info)
+        if match:
+            return match.group(1)
+        else:
+            assert False, "ID idea not found"
+
+    def id_idea_by_url(self, url):
+        match = re.search(r'/(\d+)$', url)
+        if match:
+            return match.group(1)
+        else:
+            assert False, "ID url not found"

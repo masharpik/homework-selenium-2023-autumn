@@ -33,3 +33,11 @@ class AdsMainPage(WebPage):
     input_login = WebElement(xpath='//input[@name="login"]')
     input_password = WebElement(xpath='//input[@name="password"]')
     button_submit = WebElement(xpath='//button[@type="submit"]')
+    
+    def is_visible_footer(self):
+        JS_IS_VISIBLE_IN_VIEWPORT = "var elem = arguments[0], box = elem.getBoundingClientRect(), cx = box.left + box.width / 2, cy = box.top + box.height / 2, e = document.elementFromPoint(cx, cy); for (; e; e = e.parentElement) { if (e === elem) return true; } return false;"
+        return self._web_driver.execute_script(JS_IS_VISIBLE_IN_VIEWPORT, self.footer_section.find())
+
+    def click_social_icon(self, icon_index):
+        footer_icons = self.footer_icons.find()    
+        footer_icons[icon_index].click()
