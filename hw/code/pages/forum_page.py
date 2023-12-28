@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 # -*- encoding=utf8 -*-
 
-from pages.base import WebPage
-from pages.elements import WebElement
-from pages.elements import ManyWebElements
+from .base import WebPage
+from .elements import WebElement, ManyWebElements
+
 
 class ForumPage(WebPage):
     def __init__(self, web_driver, url=''):

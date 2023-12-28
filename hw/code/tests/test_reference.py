@@ -1,6 +1,7 @@
 import pytest
 import time
 
+
 @pytest.mark.parametrize('section_index, expected_url', [
     (0, '/help/categories/authorization'),
     (1, '/help/categories/general'),
@@ -16,7 +17,8 @@ def test_ref_sections(web_browser, ref_page, section_index, expected_url):
     time.sleep(0.5)
     ref_page.sections[section_index].click()
     ref_page.wait_page_loaded()
-    assert expected_url in ref_page.get_current_url(), f'Incorrect URL [{ref_page.get_current_url()}] after clicking social icon {section_index+1}'
+    assert expected_url in ref_page.get_current_url(), f'Incorrect URL [{ref_page.get_current_url()}] after clicking social icon {section_index + 1}'
+
 
 @pytest.mark.parametrize('search_query, has_results', [
     ("api", True),
@@ -30,7 +32,9 @@ def test_search_suggestions(web_browser, ref_page, search_query, has_results):
     else:
         assert ref_page.suggections.count() == 0
     ref_page.button_clear.click()
-    assert ref_page.input_search.find().get_attribute('value') == '', 'Search input is not cleared after pressing the clear button'
+    assert ref_page.input_search.find().get_attribute(
+        'value') == '', 'Search input is not cleared after pressing the clear button'
+
 
 def test_search_suggestions_click(web_browser, ref_page):
     ref_page.input_search.send_keys("api")
@@ -59,19 +63,18 @@ def test_click_buttons_on_concrete_article_of_ref_page(web_browser, article_ref_
     article_ref_page.wait_page_loaded()
     assert "https://ads.vk.com/help" in article_ref_page.get_current_url()
     article_ref_page.go_back()
-        
+
     article_ref_page.button_back_to_adds.click()
     article_ref_page.wait_page_loaded()
     assert "https://ads.vk.com/help/categories/features" in article_ref_page.get_current_url()
     article_ref_page.go_back()
-    
+
     article_ref_page.hyperlinks_header[0].click()
     article_ref_page.wait_page_loaded()
     assert "https://ads.vk.com/help" in article_ref_page.get_current_url()
     article_ref_page.go_back()
-    
+
     article_ref_page.hyperlinks_header[1].click()
     article_ref_page.wait_page_loaded()
     assert "https://ads.vk.com/help/categories/features" in article_ref_page.get_current_url()
     article_ref_page.go_back()
-    

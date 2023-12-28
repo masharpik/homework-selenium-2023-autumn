@@ -56,10 +56,11 @@ class WebElement(object):
 
         return element
 
-    def is_clickable(self):
+    def is_clickable(self, timeout=0.1):
         """ Check is element ready for click or not. """
-
-        element = self.wait_to_be_clickable(timeout=0.1)
+        # import pdb;
+        # pdb.set_trace()
+        element = self.wait_to_be_clickable(timeout=timeout)
         return element is not None
 
     def is_presented(self):
@@ -196,6 +197,15 @@ class WebElement(object):
 
         # Make screen-shot of the page:
         self._web_driver.save_screenshot(file_name)
+
+    def locate_element_in_center(self):
+        # window_height = self._web_driver.execute_script("return window.innerHeight")
+        # element_y = self.find().location['y']
+        # scroll_y = element_y - (window_height / 2)
+        # self._web_driver.execute_script(f"window.scrollTo(0, {scroll_y});")
+        self._web_driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", self.find())
+        # import pdb;
+        # pdb.set_trace()
 
     def scroll_to_element(self):
         """ Scroll page to the element. """
