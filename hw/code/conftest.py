@@ -7,34 +7,71 @@
 import pytest
 import allure
 import uuid
+
+from pages.audience_page import AudiencePage
 from pages.ads_main_page import AdsMainPage
 from pages.reference_page import RefPage
 from pages.forum_page import ForumPage
 from pages.personal_area_page import PersonalAreaPage
+from pages.partner_page import PartnerPage
+from pages.partner_help_page import PartnerHelpPage
+from pages.news_page import NewsPage
+from pages.cases_page import CasesPage
 from pages.article_reference_page import ArticleRefPage
 from _pytest.fixtures import FixtureRequest
 
-COOKIES_AND_LOCAL_STORAGE_FROM_FILE = True 
+COOKIES_AND_LOCAL_STORAGE_FROM_FILE = True
+
 
 @pytest.fixture
 def ads_main_page(web_browser):
     return AdsMainPage(web_browser)
 
+
 @pytest.fixture
 def ref_page(web_browser):
     return RefPage(web_browser)
+
 
 @pytest.fixture
 def article_ref_page(web_browser):
     return ArticleRefPage(web_browser)
 
+
 @pytest.fixture
 def forum_page(web_browser):
     return ForumPage(web_browser)
 
+
 @pytest.fixture
 def personal_area_page(web_browser, require_login):
     return PersonalAreaPage(web_browser)
+
+
+@pytest.fixture
+def audience_page(web_browser, require_login):
+    return AudiencePage(web_browser)
+
+
+@pytest.fixture
+def partner_page(web_browser):
+    return PartnerPage(web_browser)
+
+
+@pytest.fixture
+def partner_help_page(web_browser):
+    return PartnerHelpPage(web_browser)
+
+
+@pytest.fixture
+def news_page(web_browser):
+    return NewsPage(web_browser)
+
+
+@pytest.fixture
+def cases_page(web_browser):
+    return CasesPage(web_browser)
+
 
 def credentials_from_file():
     cred = {}
@@ -45,7 +82,11 @@ def credentials_from_file():
                 cred[key] = eval(value)
             else:
                 cred[key] = value
+
+    # import pdb;
+    # pdb.set_trace()
     return cred
+
 
 @pytest.fixture(scope="session")
 def login(request: FixtureRequest):
@@ -59,19 +100,20 @@ def login(request: FixtureRequest):
     mainPage.wait_page_loaded()
     mainPage.input_password.send_keys(cred['password'])
     mainPage.button_submit.click()
-    
+
     # capcha...
     # import pdb; pdb.set_trace()
 
     mainPage.wait_page_loaded()
     cookies = web_browser.get_cookies()
-    
+
     local_storage = web_browser.execute_script("return Object.entries(localStorage);")
     local_storage_dict = dict(local_storage)
-    
+
     web_browser.quit()
 
     return [cookies, local_storage_dict]
+
 
 @pytest.fixture(scope='function')
 def require_login(request: FixtureRequest):
@@ -83,19 +125,18 @@ def require_login(request: FixtureRequest):
         cookies_and_local_storage = request.getfixturevalue('login')
         cookies = cookies_and_local_storage[0]
         local_storage = cookies_and_local_storage[1]
-        
+
     web_browser = request.getfixturevalue('web_browser')
     mainPage = AdsMainPage(web_browser)
     mainPage.wait_page_loaded()
     for key, value in local_storage.items():
         web_browser.execute_script(f"localStorage.setItem('{key}', '{value}');")
-        
+
     for cookie in cookies['cookie']:
         web_browser.add_cookie(cookie)
 
     web_browser.refresh()
-    
-    
+
 
 # ---------------- system ---------------- 
 
@@ -122,7 +163,6 @@ def pytest_runtest_makereport(item, call):
 
 @pytest.fixture
 def web_browser(request, selenium):
-
     browser = selenium
     browser.set_window_size(1400, 1000)
 
@@ -151,7 +191,7 @@ def web_browser(request, selenium):
                 print(log)
 
         except:
-            pass # just ignore any errors here
+            pass  # just ignore any errors here
 
 
 def get_test_case_docstring(item):

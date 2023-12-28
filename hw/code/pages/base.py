@@ -8,8 +8,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-class WebPage(object):
 
+class WebPage(object):
     _web_driver = None
 
     def __init__(self, web_driver, url=''):
@@ -36,13 +36,12 @@ class WebPage(object):
         self.is_opened(url)
         # self.wait_page_loaded()
 
-
     def is_opened(self, url, timeout=15):
         started = time.time()
         while time.time() - started < timeout:
             if self._web_driver.current_url == url:
                 return True
-        
+
     def go_back(self):
         self._web_driver.back()
         # self.wait_page_loaded()
@@ -104,6 +103,12 @@ class WebPage(object):
             print(colored('Can not get page source', 'red'))
 
         return source
+
+    def get_title(self):
+        try:
+            return self._web_driver.title
+        except:
+            print(colored('Can not get page title', 'red'))
 
     def check_js_errors(self, ignore_list=None):
         """ This function checks JS errors on the page. """
